@@ -11,7 +11,7 @@ import { ArrowBigDown, ArrowBigUp, Loader2 } from 'lucide-react';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 
-interface PageProps {
+interface SubRedditPostPageProps {
   params: {
     postId: string;
   };
@@ -20,7 +20,7 @@ interface PageProps {
 export const dynamic = 'force-dynamic';
 export const fetchCache = 'force-no-store';
 
-const page = async ({ params }: PageProps) => {
+const SubRedditPostPage = async ({ params }: SubRedditPostPageProps) => {
   const cachedPost = (await redis.hgetall(
     `post:${params.postId}`
   )) as CachedPost;
@@ -40,11 +40,12 @@ const page = async ({ params }: PageProps) => {
   }
 
   if (!post && !cachedPost) return notFound();
+
   return (
     <div>
       <div className="flex flex-col items-center justify-between h-full sm:flex-row sm:items-start">
         <Suspense fallback={<PostVoteShell />}>
-          {/*@ts-expect-error server component */}
+          {/* @ts-expect-error server component */}
           <PostVoteServer
             postId={post?.id ?? cachedPost.id}
             getData={async () => {
@@ -60,7 +61,7 @@ const page = async ({ params }: PageProps) => {
           />
         </Suspense>
 
-        <div className="flex-col flex-1 w-full p-4 bg-white rounded-sm sm:w-0">
+        <div className="flex-1 w-full p-4 bg-white rounded-sm sm:w-0">
           <p className="mt-1 text-xs text-gray-500 truncate max-h-40">
             Posted by u/{post?.author.username ?? cachedPost.authorUsername}{' '}
             {formatTimeToNow(new Date(post?.createdAt ?? cachedPost.createdAt))}
@@ -70,13 +71,12 @@ const page = async ({ params }: PageProps) => {
           </h1>
 
           <EditorOutput content={post?.content ?? cachedPost.content} />
-
           <Suspense
             fallback={
               <Loader2 className="w-5 h-5 animate-spin text-zinc-500" />
             }
           >
-            {/* @ts-expect-error server component*/}
+            {/* @ts-expect-error Server Component */}
             <CommentSection postId={post?.id ?? cachedPost.id} />
           </Suspense>
         </div>
@@ -88,12 +88,17 @@ const page = async ({ params }: PageProps) => {
 function PostVoteShell() {
   return (
     <div className="flex flex-col items-center w-20 pr-6">
+      {/* upvote */}
       <div className={buttonVariants({ variant: 'ghost' })}>
         <ArrowBigUp className="w-5 h-5 text-zinc-700" />
       </div>
-      <div className="py-2 font-medium text-center text-small text-zinc-900">
+
+      {/* score */}
+      <div className="py-2 text-sm font-medium text-center text-zinc-900">
         <Loader2 className="w-3 h-3 animate-spin" />
       </div>
+
+      {/* downvote */}
       <div className={buttonVariants({ variant: 'ghost' })}>
         <ArrowBigDown className="w-5 h-5 text-zinc-700" />
       </div>
@@ -101,4 +106,4 @@ function PostVoteShell() {
   );
 }
 
-export default page;
+export default SubRedditPostPage;

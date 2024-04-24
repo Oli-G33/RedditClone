@@ -27,6 +27,7 @@ const PostVoteClient = ({
   const [votesAmt, setVotesAmt] = useState<number>(initialVotesAmt);
   const [currentVote, setCurrentVote] = useState(initialVote);
   const prevVote = usePrevious(currentVote);
+  console.log(initialVote);
 
   // ensure sync with server
   useEffect(() => {
@@ -78,7 +79,7 @@ const PostVoteClient = ({
   });
 
   return (
-    <div className="flex flex-col gap-4 pb-4 pr-6 sm:gap-0 sm:w-20 sm:pb-0">
+    <div className="flex gap-4 pb-4 pr-6 md:flex-col sm:gap-0 sm:w-20 sm:pb-0">
       {/* upvote */}
       <Button
         onClick={() => vote('UP')}

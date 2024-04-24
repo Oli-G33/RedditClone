@@ -1,4 +1,3 @@
-
 import { getAuthSession } from '@/lib/auth';
 import { db } from '@/lib/db';
 import PostComponent from './Post';
@@ -32,7 +31,7 @@ const CommentSection = async ({ postId }: CommentSectionProps) => {
     <div className="flex flex-col mt-4 gap-y-4">
       <hr className="w-full h-px my-6" />
 
-      <CreateComment />
+      <CreateComment postId={postId} />
       <div className="flex flex-col mt-4 gap-y-6">
         {comments
           .filter(comment => !comment.replyToId)
