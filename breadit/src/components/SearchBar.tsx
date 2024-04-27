@@ -30,6 +30,16 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
     setInput('');
   });
 
+  const request = debounce(async () => {
+    refetch();
+  }, 300);
+
+  const debounceRequest = useCallback(() => {
+    request();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const {
     isFetching,
     data: queryResults,
@@ -46,16 +56,6 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
     queryKey: ['search-query'],
     enabled: false
   });
-
-  const request = debounce(async () => {
-    refetch();
-  }, 300);
-
-  const debounceRequest = useCallback(() => {
-    request();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
     setInput('');
@@ -76,7 +76,7 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
         placeholder="Search communities..."
       />
 
-      {input.length > 0 ? (
+      {input.length > 0 && (
         <CommandList className="absolute inset-x-0 bg-white shadow top-full rounded-b-md">
           {isFetched && <CommandEmpty>No results found.</CommandEmpty>}
           {(queryResults?.length ?? 0) > 0 ? (
@@ -97,7 +97,7 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
             </CommandGroup>
           ) : null}
         </CommandList>
-      ) : null}
+      )}
     </Command>
   );
 };
