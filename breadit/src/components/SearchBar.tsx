@@ -67,6 +67,7 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
         selectorIcon={null}
         startContent={<Search className="w-6 h-6 mr-2" color="#949494" />}
       >
+        {/* @ts-expect-error*/}
         {queryResults &&
           Array.isArray(queryResults) &&
           queryResults.map(result => (
