@@ -6,17 +6,10 @@ import axios from 'axios';
 import debounce from 'lodash.debounce';
 import { usePathname, useRouter } from 'next/navigation';
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
-
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList
-} from '@/components/ui/Command';
 import { useOnClickOutside } from '@/hooks/use-on-click-outside';
-import { Users } from 'lucide-react';
+import { Users, Search } from 'lucide-react';
+import { Autocomplete, AutocompleteItem } from '@nextui-org/autocomplete';
+import Link from 'next/link';
 
 interface SearchBarProps {}
 
@@ -62,43 +55,32 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
   }, [pathname]);
 
   return (
-    <Command
-      ref={commandRef}
-      className="relative z-50 max-w-lg overflow-visible border rounded-lg"
-    >
-      <CommandInput
+    <div className="w-1/3">
+      <Autocomplete
+        value={input}
         onValueChange={text => {
           setInput(text);
           debounceRequest();
         }}
-        value={input}
-        className="border-none outline-none focus:border-none focus:outline-none ring-0"
         placeholder="Search communities..."
-      />
-
-      {input.length > 0 && (
-        <CommandList className="absolute inset-x-0 bg-white shadow top-full rounded-b-md">
-          {isFetched && <CommandEmpty>No results found.</CommandEmpty>}
-          {(queryResults?.length ?? 0) > 0 ? (
-            <CommandGroup heading="Communities">
-              {queryResults?.map(subreddit => (
-                <CommandItem
-                  onSelect={e => {
-                    router.push(`/r/${e}`);
-                    router.refresh();
-                  }}
-                  key={subreddit.id}
-                  value={subreddit.name}
-                >
-                  <Users className="w-4 h-4 mr-2" />
-                  <a href={`/r/${subreddit.name}`}>r/{subreddit.name}</a>
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          ) : null}
-        </CommandList>
-      )}
-    </Command>
+        className="relative z-50 bg-white border border-none rounded-lg outline-none focus:border-none focus:outline-none ring-0"
+        selectorIcon={null}
+        startContent={<Search className="w-6 h-6 mr-2" color="#949494" />}
+      >
+        {queryResults &&
+          Array.isArray(queryResults) &&
+          queryResults.map(result => (
+            <AutocompleteItem
+              key={result.id}
+              startContent={<Users className="w-4 h-4" />}
+              aria-label={result.name}
+              className="inset-x-0 bg-white shadow top-full"
+            >
+              <Link href={`/r/${result.name}`}>r/{result.name}</Link>
+            </AutocompleteItem>
+          ))}
+      </Autocomplete>
+    </div>
   );
 };
 
