@@ -79,7 +79,6 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
               className="inset-x-0 bg-white shadow top-full"
               onSelect={e => {
                 router.push(`/r/${e}`);
-                router.refresh();
               }}
               hideSelectedIcon={true}
             >
