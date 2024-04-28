@@ -77,9 +77,6 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
               startContent={<Users className="w-4 h-4" />}
               aria-label={result.name}
               className="inset-x-0 bg-white shadow top-full"
-              onSelect={e => {
-                router.push(`/r/${e}`);
-              }}
               hideSelectedIcon={true}
             >
               <Link href={`/r/${result.name}`}>r/{result.name}</Link>
