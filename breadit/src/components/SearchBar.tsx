@@ -10,7 +10,6 @@ import { useOnClickOutside } from '@/hooks/use-on-click-outside';
 import { Users, Search } from 'lucide-react';
 import { Autocomplete, AutocompleteItem } from '@nextui-org/autocomplete';
 import Link from 'next/link';
-import { Label } from './ui/Label';
 
 interface SearchBarProps {}
 
@@ -81,7 +80,6 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
               onSelect={e => {
                 router.push(`/r/${e}`);
                 router.refresh();
-                setInput('');
               }}
               hideSelectedIcon={true}
             >
