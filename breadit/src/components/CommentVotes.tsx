@@ -29,7 +29,6 @@ const CommentVotes = ({
   const [votesAmt, setVotesAmt] = useState<number>(initialVotesAmt);
   const [currentVote, setCurrentVote] = useState(initialVote);
   const prevVote = usePrevious(currentVote);
-  console.log(initialVote);
 
   const { mutate: vote } = useMutation({
     mutationFn: async (voteType: VoteType) => {

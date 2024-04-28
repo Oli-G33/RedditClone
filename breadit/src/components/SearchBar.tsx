@@ -10,6 +10,7 @@ import { useOnClickOutside } from '@/hooks/use-on-click-outside';
 import { Users, Search } from 'lucide-react';
 import { Autocomplete, AutocompleteItem } from '@nextui-org/autocomplete';
 import Link from 'next/link';
+import { Label } from './ui/Label';
 
 interface SearchBarProps {}
 
@@ -55,7 +56,7 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
   }, [pathname]);
 
   return (
-    <div className="w-1/3">
+    <div className="w-1/3 sm:w-2/3">
       <Autocomplete
         value={input}
         onValueChange={text => {
@@ -66,6 +67,7 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
         className="relative z-50 bg-white border border-none rounded-lg outline-none focus:border-none focus:outline-none ring-0"
         selectorIcon={null}
         startContent={<Search className="w-6 h-6 mr-2" color="#949494" />}
+        aria-label="Search bar"
       >
         {/* @ts-expect-error*/}
         {queryResults &&
@@ -79,7 +81,9 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
               onSelect={e => {
                 router.push(`/r/${e}`);
                 router.refresh();
+                setInput('');
               }}
+              hideSelectedIcon={true}
             >
               <Link href={`/r/${result.name}`}>r/{result.name}</Link>
             </AutocompleteItem>
