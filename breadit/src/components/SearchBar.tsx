@@ -56,34 +56,6 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
 
   return (
     <div className="relative w-2/3">
-      {/* <Autocomplete
-        value={input}
-        onValueChange={text => {
-          setInput(text);
-          debounceRequest();
-        }}
-        placeholder="Search communities..."
-        className="bg-white border border-none rounded-lg outline-none focus:border-none focus:outline-none ring-0"
-        selectorIcon={null}
-        startContent={<Search className="w-6 h-6 mr-2" color="#949494" />}
-        aria-label="Search bar"
-      >
-        {/* @ts-expect-error*/}
-      {/* {queryResults &&
-          Array.isArray(queryResults) &&
-          queryResults.map(result => (
-            <AutocompleteItem
-              key={result.id}
-              startContent={<Users className="w-4 h-4" />}
-              aria-label={result.name}
-              className="absolute top-0 h-10 bg-white shadow"
-              hideSelectedIcon={true}
-            >
-              <a href={`/r/${result.name}`}>r/{result.name}</a>
-            </AutocompleteItem>
-          ))}
-      </Autocomplete> */}
-
       <input
         type="text"
         placeholder="Search communities..."

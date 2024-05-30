@@ -9,7 +9,8 @@ export async function GET(req: Request) {
   const results = await db.subreddit.findMany({
     where: {
       name: {
-        startsWith: q
+        contains: q,
+        mode: 'insensitive'
       }
     },
     include: {
